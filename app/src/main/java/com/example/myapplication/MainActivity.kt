@@ -2,18 +2,14 @@ package com.example.myapplication
 
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -43,17 +39,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             true
         }
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, SettingFragment())
+            .commit()
         fragmentManager = supportFragmentManager
         openFragment(HomeFragment())
 
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.nav_about -> openFragment(AboutFragment())
-            R.id.nav_home -> openFragment(HomeFragment())
+        when (item.itemId) {
+            R.id.nav_new -> openFragment(NewFragment())
+            R.id.nav_history -> openFragment(HistoryFragment())
             R.id.nav_profile -> openFragment(ProfileFragment())
-            R.id.nav_settings -> openFragment(SettingFragment())
+            R.id.nav_settings -> openFragment(SettingFragment()) // This is where you add it
         }
         binding.DrawerLayout.closeDrawer(GravityCompat.START)
         return true
