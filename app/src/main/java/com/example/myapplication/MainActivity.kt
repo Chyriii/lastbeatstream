@@ -1,17 +1,19 @@
 package com.example.myapplication
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast // Ensure this import is included
+import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -41,26 +43,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             true
         }
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, SettingFragment())
-            .commit()
         fragmentManager = supportFragmentManager
         openFragment(HomeFragment())
+
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.nav_new -> openFragment(NewFragment())
-            R.id.nav_history -> openFragment(HistoryFragment())
+        when(item.itemId){
+            R.id.nav_about -> openFragment(AboutFragment())
+            R.id.nav_home -> openFragment(HomeFragment())
             R.id.nav_profile -> openFragment(ProfileFragment())
             R.id.nav_settings -> openFragment(SettingFragment())
-            R.id.nav_logout -> {
-                // Handle logout
-                Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
-                finish() // Close MainActivity
-            }
         }
         binding.DrawerLayout.closeDrawer(GravityCompat.START)
         return true
@@ -73,8 +66,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             super.onBackPressed()
         }
     }
-
-    private fun openFragment(fragment: Fragment) {
+    private fun openFragment(fragment: Fragment){
         val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.fragment_container, fragment)
         fragmentTransaction.commit()
